@@ -16,7 +16,7 @@ func performHelp(args: [String]) -> Int32 {
     println("Commands:")
     for command in commands {
         let subargs = join(" ", command.2)
-        println("  \(command.0) \(subargs)\t\(command.3)")
+        println("  \(command.0) \(subargs)")
     }
     return 1
 }
@@ -49,9 +49,9 @@ enum Argument: Int {
 }
 
 let commands = [
-    ("list", performLs, [], "List all stored cookies"),
-    ("delete", performDelete, ["domain", "path", "name"], "List all stored cookies"),
-    ("help", performHelp, [], "Show help")
+    ("list", performLs, []),
+    ("delete", performDelete, ["<domain>", "<path>", "<name>"]),
+    ("help", performHelp, [])
 ]
 
 func detectCommand() -> String {
