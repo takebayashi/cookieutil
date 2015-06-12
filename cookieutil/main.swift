@@ -15,7 +15,8 @@ func performHelp(args: [String]) -> Int32 {
     println()
     println("Commands:")
     for command in commands {
-        println("  \(command.0)\t\(command.2)")
+        let subargs = join(" ", command.2)
+        println("  \(command.0) \(subargs)\t\(command.3)")
     }
     return 1
 }
@@ -28,13 +29,29 @@ func performLs(args: [String]) -> Int32 {
     return 0;
 }
 
+func performDelete(args: [String]) -> Int32 {
+    let domain = args[0]
+    let path = args[1]
+    let name = args[2]
+    let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+    let cookies = (storage.cookies! as! [NSHTTPCookie]).filter { cookie in
+        cookie.domain == domain && cookie.path! == path && cookie.name == name
+    }
+    for cookie in cookies {
+        storage.deleteCookie(cookie)
+        println(cookie.toLine())
+    }
+    return 0;
+}
+
 enum Argument: Int {
     case Command = 1
 }
 
 let commands = [
-    ("list", performLs, "List all stored cookies"),
-    ("help", performHelp, "Show help")
+    ("list", performLs, [], "List all stored cookies"),
+    ("delete", performDelete, ["domain", "path", "name"], "List all stored cookies"),
+    ("help", performHelp, [], "Show help")
 ]
 
 func detectCommand() -> String {
