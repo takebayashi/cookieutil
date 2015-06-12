@@ -10,7 +10,7 @@ extension NSHTTPCookie {
     
 }
 
-func performHelp() -> Int32 {
+func performHelp(args: [String]) -> Int32 {
     println("Usage:  cookieutil <command>")
     println()
     println("Commands:")
@@ -20,9 +20,9 @@ func performHelp() -> Int32 {
     return 1
 }
 
-func performLs() -> Int32 {
+func performLs(args: [String]) -> Int32 {
     let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
-    for cookie in (storage.cookies! as [NSHTTPCookie]) {
+    for cookie in (storage.cookies! as! [NSHTTPCookie]) {
         println(cookie.toLine())
     }
     return 0;
@@ -38,13 +38,15 @@ let commands = [
 ]
 
 func detectCommand() -> String {
-    if C_ARGC - 1 < Argument.Command.rawValue {
+    if Process.argc - 1 < Argument.Command.rawValue {
         return "help"
     }
     else {
-        return String.fromCString(C_ARGV[Argument.Command.rawValue])!
+        return String.fromCString(Process.arguments[Argument.Command.rawValue])!
     }
 }
 
 let commandName = detectCommand()
-commands.filter({command in command.0 == commandName}).first!.1()
+let command = commands.filter({command in command.0 == commandName}).first!.1
+let commandArgs = Process.arguments[(Argument.Command.rawValue + 1)..<Process.arguments.count]
+command(Array(commandArgs))
