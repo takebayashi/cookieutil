@@ -88,6 +88,8 @@
 		249A91951A451A9A00AF5891 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Shun Takebayashi";
 				TargetAttributes = {
@@ -233,6 +235,7 @@
 				249A91A61A451A9A00AF5891 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

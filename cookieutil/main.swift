@@ -4,27 +4,27 @@ extension NSHTTPCookie {
     
     func toLine() -> String {
         let delimiter = "\t"
-        let fields = [domain, path!, name, value!]
-        return delimiter.join(fields)
+        let fields = [domain, path, name, value]
+        return fields.joinWithSeparator(delimiter)
     }
     
 }
 
 func performHelp(args: [String]) -> Int32 {
-    println("Usage:  cookieutil <command>")
-    println()
-    println("Commands:")
+    print("Usage:  cookieutil <command>")
+    print("")
+    print("Commands:")
     for command in commands {
-        let subargs = join(" ", command.2)
-        println("  \(command.0) \(subargs)")
+        let subargs = (command.2).joinWithSeparator(" ")
+        print("  \(command.0) \(subargs)")
     }
     return 1
 }
 
 func performLs(args: [String]) -> Int32 {
     let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
-    for cookie in (storage.cookies! as! [NSHTTPCookie]) {
-        println(cookie.toLine())
+    for cookie in (storage.cookies! ) {
+        print(cookie.toLine())
     }
     return 0;
 }
@@ -34,12 +34,13 @@ func performDelete(args: [String]) -> Int32 {
     let path = args[1]
     let name = args[2]
     let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
-    let cookies = (storage.cookies! as! [NSHTTPCookie]).filter { cookie in
-        cookie.domain == domain && cookie.path! == path && cookie.name == name
+    let matcher = { (cookie: NSHTTPCookie) in
+        cookie.domain == domain && cookie.path == path && cookie.name == name
     }
+    let cookies = storage.cookies!.filter(matcher)
     for cookie in cookies {
         storage.deleteCookie(cookie)
-        println(cookie.toLine())
+        print(cookie.toLine())
     }
     return 0;
 }
