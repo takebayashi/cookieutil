@@ -1,6 +1,6 @@
 # cookieutil
 
-A command line interface to manipulate Cocoa's cookie storage
+A command line interface to manipulate Safari's cookie storage
 
 ## Usage
 
