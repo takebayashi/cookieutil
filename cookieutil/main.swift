@@ -22,7 +22,7 @@ func performHelp(args: [String]) -> Int32 {
 }
 
 func performLs(args: [String]) -> Int32 {
-    let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+    let storage = NSHTTPCookieStorage.sharedCookieStorageForGroupContainerIdentifier("Cookies")
     for cookie in (storage.cookies! ) {
         print(cookie.toLine())
     }
@@ -33,7 +33,7 @@ func performDelete(args: [String]) -> Int32 {
     let domain = args[0]
     let path = args[1]
     let name = args[2]
-    let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+    let storage = NSHTTPCookieStorage.sharedCookieStorageForGroupContainerIdentifier("Cookies")
     let matcher = { (cookie: NSHTTPCookie) in
         cookie.domain == domain && cookie.path == path && cookie.name == name
     }
